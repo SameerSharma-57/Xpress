@@ -1,8 +1,8 @@
 import lxml.etree as etree
-from pathCode import PathCode
-from utils import Utils
-from xpathQueryValidator import XPathQueryValidator
-from statistics_collection import Statistics_collection
+from .pathCode import PathCode
+from .utils import Utils
+from .xpathQueryValidator import XPathQueryValidator
+from .statistics_collection import Statistics_collection
 
 class XMLCompressor:
     """
