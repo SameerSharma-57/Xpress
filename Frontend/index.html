@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XML Input Interface</title>
 
-    <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="style.css">
+      <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+  <!-- Main Stylesheet -->
+  <link href="style.css" rel="stylesheet" media="screen" />
+    <!-- Bootstrap -->
+  <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
+  <!-- themefy-icon -->
+  <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
 </head>
 <body>
 
 <div class="container">
-    <h1>XML Input Interface</h1>
+    <h1>XPress</h1>
 
     <!-- File Upload Section -->
     <label for="xmlFile">Upload XML File:</label>
+    <label class="custom-file-upload" for="xmlFile">Choose File</label>
     <input type="file" id="xmlFile" accept=".xml">
-
     <hr>
 
     <!-- Text Area for Pasting XML -->
@@ -25,7 +31,7 @@
 
     <input type = "text" id="xmlQuery" placeholder="Enter Your Query..."></input>
 
-    <button onclick="displayXML()">Get Result</button>
+    <button class="inline-button" onclick="displayXML()">Get Result</button>
 
     <hr>
 
