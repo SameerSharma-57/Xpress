@@ -34,7 +34,7 @@ function displayXML() {
 // Function to format XML (pretty print)
 function formatXML(xml,xmlQuery) {
     // get result by calling Backend/main.py
-    const url = 'http://127.0.0.1:5000/process_xml';
+    const url = 'https://sde-path-queries-753921636986.us-central1.run.app/process_xml';
 
     // Prepare the data to be sent
     const data = {
