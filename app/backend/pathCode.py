@@ -1,4 +1,3 @@
-
 class PathCode:
     """
     A class representing a code that encodes the path in the XML structure.

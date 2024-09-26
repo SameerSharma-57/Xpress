@@ -8,11 +8,13 @@
       <!-- fonts -->
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
   <!-- Main Stylesheet -->
-  <link href="style.css" rel="stylesheet" media="screen" />
-    <!-- Bootstrap -->
-  <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
-  <!-- themefy-icon -->
-  <link rel="stylesheet" href="plugins/themify-icons/themify-icons.css">
+<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" media="screen" />
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/bootstrap/bootstrap.min.css') }}">
+
+<!-- Themify Icons -->
+<link rel="stylesheet" href="{{ url_for('static', filename='plugins/themify-icons/themify-icons.css') }}">
 </head>
 <body>
 
@@ -41,6 +43,6 @@
 </div>
 
 <!-- Link to the external JS file -->
-<script src="script.js"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
