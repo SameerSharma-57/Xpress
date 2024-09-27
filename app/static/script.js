@@ -1,45 +1,65 @@
 // script.js
-
-// Function to read and display XML content from file or textarea
-function displayXML() {
+var fileName = '';	
+function uploadFile() {
     let fileInput = document.getElementById('xmlFile');
-    let textArea = document.getElementById('xmlText');
-    let xmlQuery = document.getElementById('xmlQuery');
-    let xmlDisplay = document.getElementById('xmlDisplay');
-    
-    // Clear the display area
-    xmlDisplay.innerHTML = '';
+    let file = fileInput.files[0];
+    let reader = new FileReader();
+    console.log(file.name)
+    reader.onload = function(e) {
+        let fileContent = e.target.result; 
+        fileName = file.name;
 
-    if (fileInput.files.length > 0 && xmlQuery.value.trim() !== "") {
-        // If an XML file is uploaded
-        let file = fileInput.files[0];
-        let reader = new FileReader();
+        let xhr = new XMLHttpRequest();
 
-        reader.onload = function(e) {
-            let xmlContent = e.target.result;
-            xmlDisplay.textContent = formatXML(xmlContent, xmlQuery.value);
-        };
+        // Update progress bar
+        xhr.upload.addEventListener('progress', function(e) {
+            let percent = (e.loaded / e.total) * 100;
+            document.getElementById('progressBar').value = Math.round(percent);
+            document.getElementById('progressBar').style.width = Math.round(percent) + '%';
+            document.getElementById('loaded_n_total').textContent = `${Math.round(percent)}%`;
+        });
 
-        reader.readAsText(file);
-    } else if (textArea.value.trim() !== "" && xmlQuery.value.trim() !== "") {
-        // If XML is pasted into the textarea
-        let xmlContent = textArea.value;
-        xmlDisplay.textContent = formatXML(xmlContent, xmlQuery.value);
-    } else {
-        xmlDisplay.textContent = "No XML content provided.";
-    }
+        // Handle the upload completion
+        xhr.addEventListener('load', function() {
+            if (xhr.status === 200) {
+                document.getElementById('status').textContent = 'Upload Complete!';
+            } else {
+                document.getElementById('status').textContent = 'Upload Failed!';
+            }
+        });
 
+        // Handle any errors
+        xhr.addEventListener('error', function() {
+            document.getElementById('status').textContent = 'Upload Failed!';
+        });
+
+        // Open and send the file content as a string
+        xhr.open('POST', '/post_xml');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ fileContent: fileContent, fileName: fileName }));
+    };
+
+    reader.onerror = function() {
+        document.getElementById('status').textContent = 'Error reading file!';
+    };
+
+    // Read the file as a text string
+    reader.readAsText(file);
 }
 
-// Function to format XML (pretty print)
-function formatXML(xml,xmlQuery) {
-    // get result by calling Backend/main.py
-    const url = 'https://sde-path-queries-753921636986.us-central1.run.app/process_xml';
 
+
+
+
+// Function to format XML (pretty print)
+function getResult() {
+    // get result by calling Backend/main.py
+    const url = '/process_xml';
+    let xmlQuery = document.getElementById('xmlQuery').value;
     // Prepare the data to be sent
     const data = {
-        xml: xml,
-        query: xmlQuery
+        query: xmlQuery,
+        fileName: fileName
     };
 
     // Make an asynchronous POST request to the backend
@@ -53,7 +73,11 @@ function formatXML(xml,xmlQuery) {
     .then(response => response.json())
     .then(result => {
         // Handle the result returned from the backend
-        console.log('Result:', result);
+        console.log(result);	
+        if(result['error']) {
+            document.getElementById('xmlDisplay').textContent ='Please correct your query or xml file';
+            return;
+        }
         document.getElementById('xmlDisplay').textContent = `${result}`;
     })
     .catch(error => {

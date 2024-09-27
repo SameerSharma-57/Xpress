@@ -24,8 +24,17 @@
     <!-- File Upload Section -->
     <label for="xmlFile">Upload XML File:</label>
     <label class="custom-file-upload" for="xmlFile">Choose File</label>
-    <input type="file" id="xmlFile" accept=".xml">
+    <input type="file" id="xmlFile" accept=".xml" onchange="uploadFile()">
     <hr>
+
+
+     <!-- Progress Bar -->
+     <div class="progress">
+        <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+        <h7 id="status"></h7>
+          <p id="loaded_n_total"></p>
+    </div>
+
 
     <!-- Text Area for Pasting XML -->
     <label for="xmlText">Or Paste XML Content:</label>
@@ -33,7 +42,7 @@
 
     <input type = "text" id="xmlQuery" placeholder="Enter Your Query..."></input>
 
-    <button class="inline-button" onclick="displayXML()">Get Result</button>
+    <button class="inline-button" onclick="getResult()">Get Result</button>
 
     <hr>
 
@@ -41,6 +50,7 @@
     <h2>Query Output:</h2>
     <div id="xmlDisplay"></div>
 </div>
+
 
 <!-- Link to the external JS file -->
 <script src="{{ url_for('static', filename='script.js') }}"></script>
