@@ -1,9 +1,5 @@
-from fileinput import filename
-import re
-from isort import file
 import lxml.etree as etree
-from sympy import comp
-from backend.xmlCompressor import XMLCompressor
+from .backend.xmlCompressor import XMLCompressor
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 

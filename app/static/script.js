@@ -56,11 +56,14 @@ function getResult() {
     // get result by calling Backend/main.py
     const url = '/process_xml';
     let xmlQuery = document.getElementById('xmlQuery').value;
+
     // Prepare the data to be sent
     const data = {
         query: xmlQuery,
         fileName: fileName
     };
+
+    const startTime = Date.now(); // Capture start time
 
     // Make an asynchronous POST request to the backend
     fetch(url, {
@@ -72,13 +75,17 @@ function getResult() {
     })
     .then(response => response.json())
     .then(result => {
+        const endTime = Date.now(); // Capture end time
+        const responseTime = endTime - startTime; // Calculate response time in milliseconds
+
         // Handle the result returned from the backend
         console.log(result);	
         if(result['error']) {
-            document.getElementById('xmlDisplay').textContent ='Please correct your query or xml file';
+            document.getElementById('xmlDisplay').textContent = 'Please correct your query or XML file';
             return;
         }
-        document.getElementById('xmlDisplay').textContent = `${result}`;
+        
+        document.getElementById('xmlDisplay').textContent = `Result: ${JSON.stringify(result)}\nResponse time: ${responseTime} ms`;
     })
     .catch(error => {
         console.error('Error:', error);
