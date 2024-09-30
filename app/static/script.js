@@ -91,13 +91,14 @@ function getResult() {
 
         // Handle the result returned from the backend
         console.log(result);	
-        queryResult = result;
+        queryResult = result["result"];
+        queryTime = result["time"];
         if(result['error']) {
             document.getElementById('xmlDisplay').textContent = 'Please correct your query or XML file';
             return;
         }
         
-        document.getElementById('xmlDisplay').textContent = `Result: ${JSON.stringify(result)}\nResponse time: ${responseTime} ms`;
+        document.getElementById('xmlDisplay').textContent = `Result: ${JSON.stringify(result)}\nResponse time: ${responseTime} ms\nQuery time: ${queryTime} ms`;
         document.getElementById('downloadQueryBtn').style.display = 'inline-block';
     })
     .catch(error => {

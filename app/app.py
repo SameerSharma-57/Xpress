@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, jsonify, send_from_directory,
 from flask_cors import CORS
 import os
 from io import BytesIO
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -23,7 +24,11 @@ def process_xml():
         data = request.get_json()
         query = data['query']
         filename = data['fileName']
-        return jsonify(compressedXMLs[filename].get(query))
+        start = time.time()
+        response = {"result":(compressedXMLs[filename].get(query))}
+        end = time.time()
+        response['time'] = end - start
+        return jsonify(response)
     except Exception as e:
         return jsonify({'error': True, 'message': str(e)})
     
