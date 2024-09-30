@@ -98,7 +98,7 @@ function getResult() {
             return;
         }
         
-        document.getElementById('xmlDisplay').textContent = `Result: ${JSON.stringify(result)}\nResponse time: ${responseTime} ms\nQuery time: ${queryTime} ms`;
+        document.getElementById('xmlDisplay').textContent = `Result: ${JSON.stringify(result["result"])}\nResponse time: ${responseTime} ms\nQuery time: ${queryTime} ms`;
         document.getElementById('downloadQueryBtn').style.display = 'inline-block';
     })
     .catch(error => {

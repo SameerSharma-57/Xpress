@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <book>
-    <author> Sameer </author>
-    <title> Sharma </title>
+    <author> John Doe </author>
+    <title> The wanderer </title>
     <section>
-        <title> Shalin </title>
+        <title> The first Journey </title>
         <subsection>
-            <subtitle> Jain </subtitle>
+            <subtitle> Abstract </subtitle>
         </subsection>
     </section>
 </book>
