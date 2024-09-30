@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XML Input Interface</title>
 
-      <!-- fonts -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML Input Interface</title>
+
+  <!-- fonts -->
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
   <!-- Main Stylesheet -->
-<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" media="screen" />
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" media="screen" />
 
-<!-- Bootstrap -->
-<link rel="stylesheet" href="{{ url_for('static', filename='plugins/bootstrap/bootstrap.min.css') }}">
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/bootstrap/bootstrap.min.css') }}">
 
-<!-- Themify Icons -->
-<link rel="stylesheet" href="{{ url_for('static', filename='plugins/themify-icons/themify-icons.css') }}">
+  <!-- Themify Icons -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='plugins/themify-icons/themify-icons.css') }}">
 </head>
+
 <body>
 
-<div class="container">
+  <div class="container">
     <h1>XPress</h1>
 
     <!-- File Upload Section -->
@@ -28,20 +30,23 @@
     <hr>
 
 
-     <!-- Progress Bar -->
-     <div class="progress">
-        <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
-        <h7 id="status"></h7>
-          <p id="loaded_n_total"></p>
+    <!-- Progress Bar -->
+    <div class="progress">
+      <div class="progress-bar" id="progressBar" style="width: 0%;">
+        <p id="loaded_n_total"></p>
+      </div>
     </div>
 
 
     <!-- Text Area for Pasting XML -->
-    <label for="xmlText">Or Paste XML Content:</label>
-    <textarea id="xmlText" placeholder="Paste XML content here..."></textarea>
+    <!-- <label for="xmlText">Or Paste XML Content:</label>
+    <textarea id="xmlText" placeholder="Paste XML content here..."></textarea> -->
 
-    <input type = "text" id="xmlQuery" placeholder="Enter Your Query..."></input>
-
+    <input type="text" id="xmlQuery" placeholder="Enter Your Query..."></input>
+    
+    <a id="downloadBtn" href="#" download>
+      <button class="inline-button" style="display:none;">Download File</button>
+    </a>
     <button class="inline-button" onclick="getResult()">Get Result</button>
 
     <hr>
@@ -49,10 +54,14 @@
     <!-- XML Display Section -->
     <h2>Query Output:</h2>
     <div id="xmlDisplay"></div>
-</div>
+
+    <button class="inline-button" id="downloadQueryBtn" style="display:none;" onclick="downloadQueryResult()">Download Query Result</button>
+
+  </div>
 
 
-<!-- Link to the external JS file -->
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+  <!-- Link to the external JS file -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+
 </html>

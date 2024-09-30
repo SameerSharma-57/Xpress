@@ -102,3 +102,22 @@ class XMLCompressor:
             if path.contained_in(query_encoding[0], query_encoding[1]):
                 values.append(path.value)
         return values
+    
+    def to_string(self):
+        """
+        Converts the compressed XML document to a string representation.
+
+        Returns:
+        str: A string representation of the compressed XML document.
+        """
+        
+        out = "Value intervals:\n"
+        out += "left,right,value\n"
+        for path in self.pathCodes:
+            out += f'{path.left},{path.right},{path.value}\n'
+
+        out += "\nTag intervals:\n"
+        out += "tag,left,right\n"
+        for tag, interval in self.tagIntervals.items():
+            out += f'{tag},{interval[0]},{interval[1]}\n'
+        return out

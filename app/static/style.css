@@ -29,6 +29,10 @@ html, body {
     margin-top: 20px;
 }
 
+#loaded_n_total {
+    color: white
+}
+
 /* Container hover for effect */
 .container:hover {
     transform: translateY(-10px);

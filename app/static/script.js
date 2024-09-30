@@ -1,9 +1,14 @@
 // script.js
 var fileName = '';	
+var queryResult = '';
 function uploadFile() {
     let fileInput = document.getElementById('xmlFile');
     let file = fileInput.files[0];
     let reader = new FileReader();
+
+    document.getElementById('progressBar').value = 0;
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('loaded_n_total').textContent = '0%';
     console.log(file.name)
     reader.onload = function(e) {
         let fileContent = e.target.result; 
@@ -19,12 +24,18 @@ function uploadFile() {
             document.getElementById('loaded_n_total').textContent = `${Math.round(percent)}%`;
         });
 
-        // Handle the upload completion
         xhr.addEventListener('load', function() {
             if (xhr.status === 200) {
-                document.getElementById('status').textContent = 'Upload Complete!';
-            } else {
-                document.getElementById('status').textContent = 'Upload Failed!';
+                let response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    // Set the download URL for the compressed file
+                    let downloadUrl = response.download_url;
+                    let downloadBtn = document.getElementById('downloadBtn');
+                    downloadBtn.href = downloadUrl;
+                    document.querySelector('#downloadBtn button').style.display = 'inline-block';  // Show the download button
+                } else {
+                    document.getElementById('status').textContent = 'Upload Failed!';
+                }
             }
         });
 
@@ -80,12 +91,14 @@ function getResult() {
 
         // Handle the result returned from the backend
         console.log(result);	
+        queryResult = result;
         if(result['error']) {
             document.getElementById('xmlDisplay').textContent = 'Please correct your query or XML file';
             return;
         }
         
         document.getElementById('xmlDisplay').textContent = `Result: ${JSON.stringify(result)}\nResponse time: ${responseTime} ms`;
+        document.getElementById('downloadQueryBtn').style.display = 'inline-block';
     })
     .catch(error => {
         console.error('Error:', error);
@@ -93,3 +106,15 @@ function getResult() {
     });
 }
 
+function downloadQueryResult() {
+    // Create a blob from the query result string
+    let blob = new Blob([queryResult], { type: 'text/plain' });
+
+    // Create a temporary anchor element to trigger the download
+    let a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'query_result.txt';  // You can change the filename if needed
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
