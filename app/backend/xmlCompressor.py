@@ -3,6 +3,7 @@ from .pathCode import PathCode
 from .utils import Utils
 from .xpathQueryValidator import XPathQueryValidator
 from .statistics_collection import Statistics_collection
+from .recursive_arithmetic_encoding import Recursive_arithmetic_encoder
 
 class XMLCompressor:
     """
@@ -23,6 +24,7 @@ class XMLCompressor:
         self.queryValidator = XPathQueryValidator()
         self.statistics = Statistics_collection()
         self.utils = Utils()
+        self.recursive_arithmetic_encoder = Recursive_arithmetic_encoder(self.tagIntervals)
         self.build()
 
     def build(self):
@@ -32,32 +34,9 @@ class XMLCompressor:
         self.pathStack = []
         self.tagIntervals = self.statistics.generate_tag_intervals(self.root)
         self.queryValidator = XPathQueryValidator(self.tagIntervals.keys())
-        self.generate_path_encodings(self.root, (0.0,1.0))
+        self.recursive_arithmetic_encoder = Recursive_arithmetic_encoder(self.tagIntervals)
+        self.pathCodes = self.recursive_arithmetic_encoder.getPathCodes(self.root)
         self.pathCodes.sort()
-
-    def generate_path_encodings(self,root,parentInterval):
-        """
-        Recursively generates path encodings for each element in the XML document.
-
-        Parameters:
-        root (Element): The current XML element.
-        parentInterval (tuple): The interval encoding of the parent element.
-        """
-        if root is None:
-            return
-        
-        interval = self.tagIntervals[root.tag]
-        length = interval[1] - interval[0]
-        left = interval[0] + parentInterval[0]*length
-        right = interval[0] + parentInterval[1]*length
-        parentInterval = (left, right)
-
-        childs = root.getchildren()
-        if len(childs) == 0:
-            self.pathCodes.append(PathCode(left, right, root.text))
-            return
-        for child in childs:
-            self.generate_path_encodings(child, parentInterval)
 
     def XPathQueryEncoding(self, query):
         """
@@ -110,7 +89,7 @@ class XMLCompressor:
         Returns:
         str: A string representation of the compressed XML document.
         """
-        
+
         out = "Value intervals:\n"
         out += "left,right,value\n"
         for path in self.pathCodes:
